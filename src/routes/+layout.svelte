@@ -22,7 +22,7 @@
 </main>
 <footer>
 	<p>Created by <a href="https://github.com/FireIsGood" target="_blank">FireIsGood</a></p>
-	<p><a href="" target="_blank">Source Code</a></p>
+	<p><a href="https://github.com/FireIsGood/points" target="_blank">Source Code</a></p>
 </footer>
 
 <Toaster />

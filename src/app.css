@@ -1,0 +1,108 @@
+:root:root {
+	--pico-font-size: 100%;
+	--pico-font-family-monospace:
+		ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace;
+
+	--color-positive: oklch(from var(--pico-primary) l c 150.67);
+	--color-negative: oklch(from var(--pico-primary) l c 12.23);
+}
+
+html {
+	background-image: url('$lib/assets/greenbg.png');
+	background-repeat: repeat;
+	background-position: round(to-zero, 50%, 1px) top;
+	height: 100%;
+	scrollbar-gutter: stable;
+}
+
+body {
+	min-height: 100%;
+	grid-template-rows: auto 1fr auto;
+	display: grid;
+	grid-template-columns: minmax(0, 1fr);
+}
+
+article {
+	& > :last-child {
+		margin-bottom: 0;
+	}
+}
+
+details summary[role='button'],
+button {
+	padding: 0.125em 0.375em;
+}
+
+table {
+	table-layout: fixed;
+	border: 2px solid var(--pico-muted-border-color);
+}
+
+th:not(:last-of-type) {
+	border-right: 2px solid var(--pico-muted-border-color);
+}
+
+dialog {
+	transition:
+		opacity var(--pico-transition),
+		display var(--pico-transition) allow-discrete;
+	animation: fade-in var(--pico-transition);
+}
+dialog:not([open]),
+dialog[open='false'] {
+	opacity: 0;
+}
+
+code {
+	border: 1px solid var(--pico-muted-border-color);
+	transition: background-color var(--pico-transition);
+
+	&:hover {
+		background: color-mix(in srgb, var(--pico-code-background-color), var(--pico-code-color) 10%);
+	}
+	&:active {
+		background: color-mix(in srgb, var(--pico-code-background-color), var(--pico-code-color) 15%);
+	}
+}
+
+.container-fluid {
+	max-width: 1080px;
+}
+
+.admin-collapsible {
+	background-color: color-mix(in srgb, var(--pico-background-color), var(--color-positive) 5%);
+	border: 2px dashed color-mix(in srgb, var(--pico-background-color), var(--color-positive) 20%);
+	padding: 0.5rem 0.75rem;
+
+	& > :last-child {
+		margin-bottom: 0;
+	}
+}
+
+/* Helper classes */
+.noresize {
+	max-width: 100%;
+	overflow-x: auto;
+
+	> * {
+		min-width: 100%;
+		width: max-content;
+	}
+}
+.contents {
+	display: contents;
+}
+.hidden {
+	display: none;
+	visibility: hidden;
+}
+
+/* Animations */
+@keyframes fade-in {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}

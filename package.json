@@ -1,0 +1,43 @@
+{
+	"name": "points",
+	"private": true,
+	"version": "0.0.1",
+	"type": "module",
+	"scripts": {
+		"dev": "vite dev",
+		"build": "vite build",
+		"preview": "vite preview",
+		"prepare": "svelte-kit sync || echo ''",
+		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
+		"lint": "prettier --check .",
+		"format": "prettier --write .",
+		"generate-migrations:db": "drizzle-kit generate --config=src/lib/server/db/drizzle.config.ts",
+		"push:db": "drizzle-kit push --config=src/lib/server/db/drizzle.config.ts",
+		"migrate:db": "tsx src/lib/server/db/migrate.ts"
+	},
+	"devDependencies": {
+		"@sveltejs/adapter-node": "^5.5.4",
+		"@sveltejs/kit": "^2.50.2",
+		"@sveltejs/vite-plugin-svelte": "^6.2.4",
+		"@types/better-sqlite3": "^7.6.13",
+		"drizzle-kit": "^0.31.10",
+		"phosphor-icons-svelte": "^2.1.0",
+		"prettier": "^3.8.1",
+		"prettier-plugin-svelte": "^3.4.1",
+		"svelte": "^5.51.0",
+		"svelte-check": "^4.4.2",
+		"typescript": "^5.9.3",
+		"vite": "^7.3.1"
+	},
+	"dependencies": {
+		"better-sqlite3": "^12.8.0",
+		"dayjs": "^1.11.20",
+		"dotenv": "^17.3.1",
+		"drizzle-orm": "^0.45.1",
+		"svelte-french-toast": "^1.2.0",
+		"svelte-headlessui": "^0.0.46",
+		"tsx": "^4.21.0",
+		"uuid": "^13.0.0"
+	}
+}

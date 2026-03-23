@@ -6,13 +6,13 @@ Personal point tracker to my very specification.
 
 Install dependencies with your preferred package manager:
 
-```sh
+```bash
 pnpm i
 ```
 
 Add the `.env` file:
 
-```sh
+```bash
 cp .env.example .env
 ```
 
@@ -20,14 +20,14 @@ Edit the `admin_key` to your own secret.
 
 Update and run Drizzle migrations:
 
-```sh
+```bash
 pnpm generate-migrations:db
 pnpm migrate:db
 ```
 
 Run the development server:
 
-```sh
+```bash
 pnpm run dev
 ```
 
@@ -35,18 +35,18 @@ pnpm run dev
 
 To build the production version:
 
-```sh
+```bash
 npm run build
 ```
 
 To preview the build:
 
-```sh
+```bash
 npm run preview
 ```
 
 Load the production app at port 3000:
 
-```sh
+```bash
 node build
 ```

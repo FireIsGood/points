@@ -16,6 +16,10 @@
 	});
 </script>
 
+<svelte:head>
+	<title>FireIsPoints - Admin</title>
+</svelte:head>
+
 <article>
 	<h2>Admin</h2>
 	<p>Secret admin page wow</p>

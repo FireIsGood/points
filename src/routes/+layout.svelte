@@ -1,12 +1,13 @@
 <script lang="ts">
 	import '../app.css';
-	import favicon from '$lib/assets/favicon.svg';
+	import favicon from '$lib/assets/flan.gif';
 	import { Toaster } from 'svelte-french-toast';
 
 	let { children } = $props();
 </script>
 
 <svelte:head>
+	<title>FireIsPoints</title>
 	<link rel="icon" href={favicon} />
 	<link
 		rel="stylesheet"

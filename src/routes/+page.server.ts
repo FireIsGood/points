@@ -1,5 +1,5 @@
 import * as dotenv from 'dotenv';
-import { fail, type Cookies } from '@sveltejs/kit';
+import { fail } from '@sveltejs/kit';
 import type { PageServerLoad, Actions } from './$types';
 import {
 	createTransaction,
@@ -13,7 +13,7 @@ import {
 	userExists
 } from '$lib/server/database';
 import type { users } from '$lib/server/db/schema';
-import { COOKIE_ADMIN, COOKIE_TRACKING } from '$lib';
+import { COOKIE_TRACKING, cookieAdmin } from '$lib';
 
 dotenv.config();
 
@@ -39,10 +39,6 @@ class Tracking {
 	toString() {
 		return [...this.ids].join(',');
 	}
-}
-
-function cookieAdmin(cookies: Cookies): boolean {
-	return cookies.get(COOKIE_ADMIN) === process.env.ADMIN_KEY;
 }
 
 export const load: PageServerLoad = async ({ cookies }) => {

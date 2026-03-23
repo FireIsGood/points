@@ -3,7 +3,7 @@
 	import toast from 'svelte-french-toast';
 	import type { PageProps } from '../$types';
 
-	let { form }: PageProps = $props();
+	let { data, form }: PageProps = $props();
 
 	// Toasts
 	$effect(() => {
@@ -39,4 +39,6 @@
 			<input type="submit" value="Deauthorize" />
 		</form>
 	</details>
+	<p>Info</p>
+	<pre>{JSON.stringify(data, null, 2)}</pre>
 </article>

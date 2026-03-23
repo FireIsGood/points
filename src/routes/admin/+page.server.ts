@@ -1,6 +1,14 @@
-import { COOKIE_ADMIN } from '$lib';
+import { COOKIE_ADMIN, cookieAdmin } from '$lib';
 import { fail } from '@sveltejs/kit';
-import type { Actions } from '../$types';
+import type { Actions, PageServerLoad } from '../$types';
+
+export const load: PageServerLoad = async ({ cookies }) => {
+	const isAdmin = cookieAdmin(cookies);
+	return {
+		role: isAdmin ? 'admin' : 'user',
+		admin_key: cookies.get(COOKIE_ADMIN)
+	};
+};
 
 export const actions = {
 	adminAuth: async ({ cookies, request }) => {

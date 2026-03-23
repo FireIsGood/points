@@ -71,7 +71,7 @@
 			</fieldset>
 		</form>
 	{:else}
-		<div class="noresize">
+		<div class="noresize table-holder">
 			<table class="striped">
 				<thead>
 					<tr>
@@ -164,6 +164,14 @@
 {/if}
 
 <style>
+	.table-holder {
+		margin-bottom: 1rem;
+
+		& > table {
+			margin-bottom: 0;
+		}
+	}
+
 	.header-id {
 		width: calc(36ch + 1.5rem);
 	}
@@ -209,6 +217,8 @@
 
 	.table-footer-actions {
 		display: flex;
+		flex-wrap: wrap;
+		gap: 1rem 0.5rem;
 		justify-content: space-between;
 		margin-inline: 1rem;
 		margin-bottom: 0.75rem;

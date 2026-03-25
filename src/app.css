@@ -2,6 +2,7 @@
 	--pico-font-size: 100%;
 	--pico-font-family-monospace:
 		ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace;
+	--pico-nav-element-spacing-vertical: 0.25rem;
 
 	--color-positive: oklch(from var(--pico-primary) l c 150.67);
 	--color-negative: oklch(from var(--pico-primary) l c 12.23);

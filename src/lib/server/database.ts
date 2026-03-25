@@ -1,6 +1,6 @@
 import { db } from '$lib/server/db/client';
 import { users, transactions } from '$lib/server/db/schema';
-import { asc, desc, eq, inArray, sql, sum } from 'drizzle-orm';
+import { and, asc, desc, eq, inArray, sql, sum } from 'drizzle-orm';
 
 export const db_ = {
 	users: [
@@ -83,6 +83,30 @@ export async function getTransactionsAdmin() {
 // Update
 export async function updateUser(uuid: string, data: Partial<typeof users.$inferInsert>) {
 	return (await db.update(users).set(data).where(eq(users.uuid, uuid)).limit(1).returning()).at(0);
+}
+
+export async function updateTransaction(
+	uuid: string,
+	createdAt: Date,
+	data: Partial<typeof transactions.$inferSelect>
+) {
+	const transaction_id = db
+		.select({ id: transactions.id })
+		.from(transactions)
+		.leftJoin(users, eq(users.id, transactions.userId))
+		.where(and(eq(users.uuid, uuid), eq(transactions.createdAt, createdAt)))
+		.get()?.id;
+
+	if (transaction_id === undefined) return undefined;
+
+	return (
+		await db
+			.update(transactions)
+			.set(data)
+			.where(eq(transactions.id, transaction_id))
+			.limit(1)
+			.returning()
+	).at(0);
 }
 
 // Delete

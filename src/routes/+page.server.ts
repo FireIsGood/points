@@ -9,10 +9,11 @@ import {
 	getTransactionsAdmin,
 	getUsers,
 	getUsersAdmin,
+	updateTransaction,
 	updateUser,
 	userExists
 } from '$lib/server/database';
-import type { users } from '$lib/server/db/schema';
+import type { transactions, users } from '$lib/server/db/schema';
 import { COOKIE_TRACKING, cookieAdmin } from '$lib';
 import { wayLaterTimestamp } from '$lib/util';
 
@@ -107,7 +108,54 @@ export const actions = {
 			delta: parseInt(form_delta, 10),
 			note: form_note
 		});
+
+		if (res === undefined) {
+			return fail(500, { success: false, message: 'Server error.' });
+		}
+
 		return { success: true, message: 'Transaction logged.' };
+	},
+	updateTransaction: async ({ cookies, request }) => {
+		const isAdmin = cookieAdmin(cookies);
+
+		// Admin only resource
+		if (!isAdmin) {
+			return fail(403, { success: false, message: 'lmao no.' });
+		}
+		const data = await request.formData();
+		const form_id = data.get('id');
+		const form_createdAt = data.get('createdAt');
+		const form_new_delta = data.get('new_delta');
+		const form_new_note = data.get('new_note');
+
+		// Validate input
+		if (
+			!form_id ||
+			typeof form_id !== 'string' ||
+			!form_createdAt ||
+			typeof form_createdAt !== 'string' ||
+			!form_new_delta ||
+			typeof form_new_delta !== 'string' ||
+			!form_new_note ||
+			typeof form_new_note !== 'string'
+		) {
+			return fail(400, { success: false, message: 'Missing required form data.' });
+		}
+
+		const updateData: Partial<typeof transactions.$inferSelect> = {
+			updatedAt: new Date(),
+			delta: parseInt(form_new_delta, 10),
+			note: form_new_note
+		};
+
+		const res = await updateTransaction(form_id, new Date(form_createdAt), updateData);
+
+		if (res === undefined) {
+			return fail(500, { success: false, message: 'Server error.' });
+		}
+		console.log(res);
+
+		return { success: true, message: 'Transaction updated.' };
 	},
 	track: async ({ cookies, request }) => {
 		const tracking = new Tracking(cookies.get(COOKIE_TRACKING));

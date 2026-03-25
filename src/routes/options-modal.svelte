@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import type { ActionData, SubmitFunction } from './$types';
-	import IconPlus from 'phosphor-icons-svelte/IconPlusBold.svelte';
 	import Modal from '$lib/modal.svelte';
 
 	let {

@@ -61,7 +61,7 @@
 	<fieldset class="actions">
 		<button class="secondary" onclick={() => untrackButton.click()}>Untrack {username}</button>
 		<div class="hidden">
-			<form method="POST" action="?/untrack" use:enhance={enhanceSubmit}>
+			<form method="POST" action="/?/untrack" use:enhance={enhanceSubmit}>
 				<!-- svelte-ignore a11y_no_redundant_roles -->
 				<fieldset role="group">
 					<input
@@ -82,7 +82,7 @@
 			<p class="admin-actions-title">Admin Actions</p>
 			<details class="admin-collapsible" bind:open={addTransactionOpen}>
 				<summary>Add transaction</summary>
-				<form method="POST" action="?/createTransaction" use:enhance={enhanceSubmit}>
+				<form method="POST" action="/?/createTransaction" use:enhance={enhanceSubmit}>
 					<label class="hidden">
 						ID
 						<input
@@ -106,7 +106,7 @@
 			</details>
 			<details class="admin-collapsible" bind:open={updateUserOpen}>
 				<summary>Update user</summary>
-				<form method="POST" action="?/updateUser" use:enhance={enhanceSubmit}>
+				<form method="POST" action="/?/updateUser" use:enhance={enhanceSubmit}>
 					<label class="hidden">
 						ID
 						<input

@@ -22,7 +22,7 @@
 	{/snippet}
 	<form
 		method="POST"
-		action="?/track"
+		action="/?/track"
 		use:enhance={() => {
 			return async ({ update }) => {
 				await update();

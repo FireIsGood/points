@@ -53,9 +53,23 @@
 	let editData = $state<EditData>();
 	let editNewNote: HTMLInputElement;
 	let editNewDelta: HTMLInputElement;
+
+	// Delete
+	let deleteModal: Modal;
+	type DeleteData = { id: string | null; createdAt: Date };
+
+	function openDelete(data: DeleteData) {
+		if (data.id === null) return;
+		deleteData = data;
+		deleteConfirm.value = '';
+		deleteModal.open();
+	}
+
+	let deleteData = $state<DeleteData>();
+	let deleteConfirm: HTMLInputElement;
 </script>
 
-<Modal bind:this={historyModal}>
+<Modal bind:this={historyModal} wide>
 	{#snippet header()}
 		<p>Point History ({username})</p>
 	{/snippet}
@@ -65,7 +79,7 @@
 				<tr>
 					<th class="header-date">Date</th>
 					<th class="header-points">Change</th>
-					<th>Note</th>
+					<th class="header-note">Note</th>
 					<th class="header-actions">Actions</th>
 				</tr>
 			</thead>
@@ -95,8 +109,14 @@
 										openEdit(transaction);
 									}}><IconEdit /></button
 								>
-								<button class="danger outline" aria-label="delete" title="Delete"
-									><IconDelete /></button
+								<button
+									class="danger outline"
+									aria-label="delete"
+									title="Delete"
+									onclick={() => {
+										historyModal.close();
+										openDelete(transaction);
+									}}><IconDelete /></button
 								>
 							</div>
 						</td>
@@ -149,9 +169,46 @@
 		<input type="submit" />
 	</form>
 	<hr />
-	optionsModal
 	<p>Raw</p>
 	<pre>{JSON.stringify(editData, null, 2)}</pre>
+</Modal>
+
+<Modal bind:this={deleteModal}>
+	{#snippet header()}
+		<p>Delete transaction</p>
+	{/snippet}
+	<p>Are you sure you want to delete this transaction? This process cannot be undone.</p>
+	<form
+		method="POST"
+		action="/?/deleteTransaction"
+		use:enhance={() => {
+			return async ({ update }) => {
+				await update({ reset: false });
+				if (form?.success) {
+					deleteModal.close();
+				}
+			};
+		}}
+	>
+		<label class="hidden">
+			ID
+			<input name="id" type="text" required bind:value={() => deleteData?.id ?? '', () => {}} />
+		</label>
+		<label class="hidden">
+			Creation time
+			<input
+				name="createdAt"
+				type="text"
+				required
+				bind:value={() => deleteData?.createdAt ?? '', () => {}}
+			/>
+		</label>
+		<label>
+			Confirm Deletion (type 'Yes')
+			<input name="confirm" type="text" placeholder="Yes" bind:this={deleteConfirm} />
+		</label>
+		<input type="submit" value="Delete Transaction" class="danger" />
+	</form>
 </Modal>
 
 <style>
@@ -165,6 +222,9 @@
 	.header-points {
 		width: 12ch;
 		text-align: right;
+	}
+	.header-note {
+		width: 40ch;
 	}
 	.header-actions {
 		text-align: center;
@@ -194,5 +254,9 @@
 	.danger {
 		--pico-primary: var(--color-negative);
 		--pico-primary-hover: var(--color-negative);
+	}
+	input.danger {
+		--pico-background-color: var(--color-negative);
+		--pico-border-color: var(--color-negative-background);
 	}
 </style>

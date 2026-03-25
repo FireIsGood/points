@@ -6,6 +6,7 @@
 
 	--color-positive: oklch(from var(--pico-primary) l c 150.67);
 	--color-negative: oklch(from var(--pico-primary) l c 12.23);
+	--color-negative-background: oklch(from var(--pico-primary-background) l c 12.23);
 }
 
 html {

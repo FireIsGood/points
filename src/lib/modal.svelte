@@ -7,9 +7,10 @@
 		children: Snippet;
 		commands?: Snippet;
 		onclose?: () => void;
+		wide?: boolean;
 	}
 
-	let { header, children, commands, onclose = () => {} }: Props = $props();
+	let { header, children, commands, onclose = () => {}, wide = false }: Props = $props();
 
 	const dialog = createDialog();
 
@@ -23,7 +24,7 @@
 </script>
 
 <dialog open={$dialog.expanded}>
-	<article use:dialog.modal {onclose}>
+	<article use:dialog.modal {onclose} class:wide>
 		<header>
 			<button onclick={close} aria-label="Close" class="close-button"></button>
 			{@render header()}
@@ -61,5 +62,9 @@
 		&:hover {
 			opacity: 1;
 		}
+	}
+
+	.wide {
+		max-width: 900px;
 	}
 </style>

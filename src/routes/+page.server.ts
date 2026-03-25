@@ -4,6 +4,7 @@ import type { PageServerLoad, Actions } from './$types';
 import {
 	createTransaction,
 	createUser,
+	deleteTransaction,
 	deleteUser,
 	getTransactions,
 	getTransactionsAdmin,
@@ -153,7 +154,6 @@ export const actions = {
 		if (res === undefined) {
 			return fail(500, { success: false, message: 'Server error.' });
 		}
-		console.log(res);
 
 		return { success: true, message: 'Transaction updated.' };
 	},
@@ -292,5 +292,43 @@ export const actions = {
 		const res = await deleteUser(form_id);
 
 		return { success: true, message: `User ${res?.username} (${res?.uuid}) deleted.` };
+	},
+	deleteTransaction: async ({ cookies, request }) => {
+		const isAdmin = cookieAdmin(cookies);
+
+		// Admin only resource
+		if (!isAdmin) {
+			return fail(403, { success: false, message: 'lmao no.' });
+		}
+
+		const data = await request.formData();
+		const form_id = data.get('id');
+		const form_createdAt = data.get('createdAt');
+		const form_confirm = data.get('confirm');
+
+		// Validate input
+		if (
+			!form_id ||
+			typeof form_id !== 'string' ||
+			!form_createdAt ||
+			typeof form_createdAt !== 'string' ||
+			!form_confirm ||
+			typeof form_confirm !== 'string'
+		) {
+			return fail(400, { success: false, message: 'Missing required form data.' });
+		}
+
+		// Ensure confirmation is true
+		if (form_confirm !== 'Yes') {
+			return fail(400, { success: false, message: 'Incorrect confirmation.' });
+		}
+
+		const res = await deleteTransaction(form_id, new Date(form_createdAt));
+
+		if (res === undefined) {
+			return fail(500, { success: false, message: 'Server error.' });
+		}
+
+		return { success: true, message: 'Transaction deleted.' };
 	}
 } satisfies Actions;

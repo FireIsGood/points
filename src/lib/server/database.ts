@@ -113,3 +113,21 @@ export async function updateTransaction(
 export async function deleteUser(uuid: string) {
 	return db.delete(users).where(eq(users.uuid, uuid)).limit(1).returning().get();
 }
+
+export async function deleteTransaction(uuid: string, createdAt: Date) {
+	const transaction_id = db
+		.select({ id: transactions.id })
+		.from(transactions)
+		.leftJoin(users, eq(users.id, transactions.userId))
+		.where(and(eq(users.uuid, uuid), eq(transactions.createdAt, createdAt)))
+		.get()?.id;
+
+	if (transaction_id === undefined) return undefined;
+
+	return db
+		.delete(transactions)
+		.where(eq(transactions.id, transaction_id))
+		.limit(1)
+		.returning()
+		.get();
+}

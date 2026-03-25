@@ -32,8 +32,17 @@
 	});
 
 	let viewIds = $state(false);
-	let viewAsAdmin = $state(false);
+	let viewAsUser = $state(false);
 	let isAdmin = $derived(data.role === 'admin');
+
+	// Filter users for admin view
+	let users = $derived.by(() => {
+		if (!isAdmin || !viewAsUser) return data.users;
+
+		// User is an admin viewing just their tracked list
+		const tracking = new Set(data.tracking);
+		return data.users.filter(({ id }) => tracking.has(id));
+	});
 
 	// Shared Modals
 	let optionsModal: OptionsModal;
@@ -84,11 +93,11 @@
 					</tr>
 				</thead>
 				<tbody>
-					{#each data.users as user}
+					{#each users as user}
 						<tr>
 							<td
-								>{user.username}{#if data.role === 'admin' && data.tracking.includes(user.id)}<sup
-										>+</sup
+								>{user.username}{#if isAdmin && !viewAsUser && data.tracking.includes(user.id)}<sup
+										>&hearts;</sup
 									>{/if}</td
 							>
 							<td
@@ -124,7 +133,7 @@
 			<div class="option-group">
 				{#if data.role === 'admin'}
 					<label>
-						<input type="checkbox" bind:checked={viewAsAdmin} />Admin View
+						<input type="checkbox" bind:checked={viewAsUser} />User View
 					</label>
 				{/if}
 				<label>

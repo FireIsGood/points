@@ -72,8 +72,16 @@ code {
 .admin-collapsible {
 	background-color: color-mix(in srgb, var(--pico-background-color), var(--color-positive) 5%);
 	border: 2px dashed color-mix(in srgb, var(--pico-background-color), var(--color-positive) 20%);
-	padding: 0.5rem 0.75rem;
 
+	& > * {
+		padding: 0 0.5rem 0.75rem;
+	}
+
+	& > summary {
+		padding: 0.5rem 0.75rem;
+	}
+
+	& > form > :last-child,
 	& > :last-child {
 		margin-bottom: 0;
 	}

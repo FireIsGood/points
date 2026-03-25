@@ -124,7 +124,7 @@
 			<div class="option-group">
 				{#if data.role === 'admin'}
 					<label>
-						<input type="checkbox" bind:checked={viewAsAdmin} />Admin Menu
+						<input type="checkbox" bind:checked={viewAsAdmin} />Admin View
 					</label>
 				{/if}
 				<label>
@@ -134,34 +134,6 @@
 		</div>
 	{/if}
 </article>
-{#if isAdmin && viewAsAdmin}
-	<article>
-		<h2>Create user</h2>
-		<form method="POST" action="?/createUser" use:enhance>
-			<label>
-				Username
-				<input name="username" placeholder="Jane Database" type="text" required />
-			</label>
-			<input type="submit" />
-		</form>
-	</article>
-	<article>
-		<h2>Delete user</h2>
-		<form method="POST" action="?/deleteUser" use:enhance>
-			<label>
-				UUID
-				<input name="id" type="text" placeholder="UUID" required />
-			</label>
-			<input type="submit" />
-		</form>
-	</article>
-	<article>
-		<details>
-			<summary>Raw Data:</summary>
-			<pre>{JSON.stringify(data, null, 2)}</pre>
-		</details>
-	</article>
-{/if}
 
 <style>
 	.table-holder {

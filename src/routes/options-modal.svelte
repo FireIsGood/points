@@ -137,23 +137,4 @@
 		display: flex;
 		gap: 1ch;
 	}
-
-	.admin-actions-title {
-		display: grid;
-		grid-template-columns: auto max-content auto;
-		align-items: center;
-		gap: 1ch;
-		text-align: center;
-		color: var(--color-negative);
-		font-weight: 500;
-
-		&::before,
-		&::after {
-			content: '';
-			display: block;
-			height: 2px;
-			width: 100%;
-			background-color: color-mix(in srgb, var(--pico-background-color), var(--color-negative) 15%);
-		}
-	}
 </style>

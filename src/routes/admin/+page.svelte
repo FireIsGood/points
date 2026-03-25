@@ -41,4 +41,27 @@
 	</details>
 	<p>Info</p>
 	<pre>{JSON.stringify(data, null, 2)}</pre>
+	{#if data.role === 'admin'}
+		<p class="admin-actions-title">Admin Actions</p>
+		<details class="admin-collapsible">
+			<summary>Create user</summary>
+			<form method="POST" action="?/createUser" use:enhance>
+				<label>
+					Username
+					<input name="username" placeholder="Jane Database" type="text" required />
+				</label>
+				<input type="submit" />
+			</form>
+		</details>
+		<details class="admin-collapsible">
+			<summary>Delete user</summary>
+			<form method="POST" action="?/deleteUser" use:enhance>
+				<label>
+					UUID
+					<input name="id" type="text" placeholder="UUID" required />
+				</label>
+				<input type="submit" />
+			</form>
+		</details>
+	{/if}
 </article>

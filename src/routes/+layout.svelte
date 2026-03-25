@@ -2,8 +2,14 @@
 	import '../app.css';
 	import favicon from '$lib/assets/flan.gif';
 	import { Toaster } from 'svelte-french-toast';
+	import { page } from '$app/state';
 
 	let { children } = $props();
+
+	const navLinks = [
+		{ href: '/', linkText: 'Tracker' },
+		{ href: '/about', linkText: 'About' }
+	];
 </script>
 
 <svelte:head>
@@ -17,6 +23,13 @@
 
 <header class="container-fluid">
 	<h1>FireIsPoints</h1>
+	<nav>
+		<ul>
+			{#each navLinks as { href, linkText }}
+				<li><a {href} class:active={page.url.pathname === href}>{linkText}</a></li>
+			{/each}
+		</ul>
+	</nav>
 </header>
 <main class="container-fluid">
 	{@render children()}
@@ -32,8 +45,7 @@
 	header {
 		display: flex;
 		justify-content: space-between;
-		padding: 1rem;
-		padding: var(--pico-block-spacing-vertical) var(--pico-block-spacing-horizontal);
+		padding: 1rem 1.25rem;
 		border-bottom-right-radius: 8px;
 		border-bottom-left-radius: 8px;
 		background: var(--pico-card-background-color);
@@ -52,5 +64,13 @@
 		p {
 			margin: 0;
 		}
+	}
+
+	a.active {
+		background-color: color-mix(
+			in srgb,
+			var(--pico-card-background-color),
+			var(--pico-primary-background) 8%
+		);
 	}
 </style>

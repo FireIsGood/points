@@ -14,6 +14,7 @@ import {
 } from '$lib/server/database';
 import type { users } from '$lib/server/db/schema';
 import { COOKIE_TRACKING, cookieAdmin } from '$lib';
+import { wayLaterTimestamp } from '$lib/util';
 
 dotenv.config();
 
@@ -44,6 +45,9 @@ class Tracking {
 export const load: PageServerLoad = async ({ cookies }) => {
 	const isAdmin = cookieAdmin(cookies);
 	const tracking = new Tracking(cookies.get(COOKIE_TRACKING));
+
+	// Refresh tracking cookie
+	cookies.set(COOKIE_TRACKING, tracking.toString(), { path: '/', expires: wayLaterTimestamp() });
 
 	// Query DB
 	if (isAdmin) {
@@ -127,7 +131,7 @@ export const actions = {
 
 		// Update cookie
 		tracking.add(form_id);
-		cookies.set(COOKIE_TRACKING, tracking.toString(), { path: '/' });
+		cookies.set(COOKIE_TRACKING, tracking.toString(), { path: '/', expires: wayLaterTimestamp() });
 
 		return { success: true, message: 'Tracking added.' };
 	},
@@ -148,7 +152,7 @@ export const actions = {
 
 		// Update cookie
 		tracking.delete(form_id);
-		cookies.set(COOKIE_TRACKING, tracking.toString(), { path: '/' });
+		cookies.set(COOKIE_TRACKING, tracking.toString(), { path: '/', expires: wayLaterTimestamp() });
 
 		return { success: true, message: 'Tracking removed.' };
 	},
@@ -175,7 +179,7 @@ export const actions = {
 		// Auto-add
 		tracking.add(res.uuid);
 
-		cookies.set(COOKIE_TRACKING, tracking.toString(), { path: '/' });
+		cookies.set(COOKIE_TRACKING, tracking.toString(), { path: '/', expires: wayLaterTimestamp() });
 
 		return { success: true, message: `User ${res.username} (${res.uuid}) created.` };
 	},

@@ -1,6 +1,7 @@
 import { COOKIE_ADMIN, cookieAdmin } from '$lib';
 import { fail } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from '../$types';
+import { wayLaterTimestamp } from '$lib/util';
 
 export const load: PageServerLoad = async ({ cookies }) => {
 	const isAdmin = cookieAdmin(cookies);
@@ -20,7 +21,11 @@ export const actions = {
 			return fail(400, { success: false, message: 'No admin key given.' });
 		}
 
-		cookies.set(COOKIE_ADMIN, form_key, { path: '/', encode: (s) => s });
+		cookies.set(COOKIE_ADMIN, form_key, {
+			path: '/',
+			encode: (s) => s,
+			expires: wayLaterTimestamp()
+		});
 
 		return { success: true, message: 'Added authorization..' };
 	},

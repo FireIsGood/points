@@ -150,11 +150,9 @@
 		}}
 	>
 		<label class="hidden">
-			ID
 			<input name="id" type="text" required bind:value={() => editData?.id ?? '', () => {}} />
 		</label>
 		<label class="hidden">
-			Creation time
 			<input
 				name="createdAt"
 				type="text"
@@ -195,11 +193,9 @@
 		}}
 	>
 		<label class="hidden">
-			ID
 			<input name="id" type="text" required bind:value={() => deleteData?.id ?? '', () => {}} />
 		</label>
 		<label class="hidden">
-			Creation time
 			<input
 				name="createdAt"
 				type="text"

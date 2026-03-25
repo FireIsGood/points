@@ -107,18 +107,11 @@
 				<summary>Update user</summary>
 				<form method="POST" action="/?/updateUser" use:enhance={enhanceSubmit}>
 					<label class="hidden">
-						ID
-						<input
-							name="id"
-							type="text"
-							placeholder="UUID"
-							required
-							bind:value={() => optionsId, () => {}}
-						/>
+						<input name="id" type="text" required bind:value={() => optionsId, () => {}} />
 					</label>
 					<label>
 						New UUID
-						<input name="new_id" placeholder="Jane Database" type="text" />
+						<input name="new_id" placeholder="UUID" type="text" />
 					</label>
 					<label>
 						New Username

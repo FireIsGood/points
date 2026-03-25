@@ -80,7 +80,9 @@
 					<th class="header-date">Date</th>
 					<th class="header-points">Change</th>
 					<th class="header-note">Note</th>
-					<th class="header-actions">Actions</th>
+					{#if isAdmin}
+						<th class="header-actions">Actions</th>
+					{/if}
 				</tr>
 			</thead>
 			<tbody>
@@ -98,28 +100,30 @@
 							>{transaction.delta > 0 ? '+' : ''}{transaction.delta}</td
 						>
 						<td>{transaction.note}</td>
-						<td class="table-action">
-							<div class="history-actions">
-								<button
-									class="secondary outline"
-									aria-label="edit"
-									title="Edit"
-									onclick={() => {
-										historyModal.close();
-										openEdit(transaction);
-									}}><IconEdit /></button
-								>
-								<button
-									class="danger outline"
-									aria-label="delete"
-									title="Delete"
-									onclick={() => {
-										historyModal.close();
-										openDelete(transaction);
-									}}><IconDelete /></button
-								>
-							</div>
-						</td>
+						{#if isAdmin}
+							<td class="table-action">
+								<div class="history-actions">
+									<button
+										class="secondary outline"
+										aria-label="edit"
+										title="Edit"
+										onclick={() => {
+											historyModal.close();
+											openEdit(transaction);
+										}}><IconEdit /></button
+									>
+									<button
+										class="danger outline"
+										aria-label="delete"
+										title="Delete"
+										onclick={() => {
+											historyModal.close();
+											openDelete(transaction);
+										}}><IconDelete /></button
+									>
+								</div>
+							</td>
+						{/if}
 					</tr>
 				{:else}
 					<tr><td colspan="4">No data.</td></tr>

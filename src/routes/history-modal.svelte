@@ -73,8 +73,8 @@
 				{#each transactionsFiltered as transaction}
 					<tr>
 						<td
-							><time datetime={transaction.updatedAt.toISOString()}
-								>{dayjs(transaction.updatedAt).format('MMM DD, YYYY @ HH:mm:ss')}</time
+							><time datetime={transaction.createdAt.toISOString()}
+								>{dayjs(transaction.createdAt).format('MMM DD, YYYY @ HH:mm:ss')}</time
 							></td
 						>
 						<td
@@ -148,6 +148,8 @@
 		</label>
 		<input type="submit" />
 	</form>
+	<hr />
+	optionsModal
 	<p>Raw</p>
 	<pre>{JSON.stringify(editData, null, 2)}</pre>
 </Modal>

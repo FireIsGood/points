@@ -41,9 +41,6 @@
 	}
 
 	let optionsId = $state('');
-	$effect(() => {
-		console.log(optionsId);
-	});
 	let optionsModal: Modal;
 	let username = $derived(users.find(({ id }) => id === optionsId)?.username);
 

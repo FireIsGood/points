@@ -25,7 +25,7 @@
 	<p>Secret admin page wow</p>
 	<details class="admin-collapsible">
 		<summary>Set admin key</summary>
-		<form method="POST" action="/?/adminAuth" use:enhance>
+		<form method="POST" action="?/adminAuth" use:enhance>
 			<!-- svelte-ignore a11y_no_redundant_roles -->
 			<fieldset role="group">
 				<input name="admin_key" type="text" placeholder="Key" required />
@@ -35,7 +35,7 @@
 	</details>
 	<details class="admin-collapsible">
 		<summary>Remove admin key</summary>
-		<form method="POST" action="/?/adminDeauth" use:enhance>
+		<form method="POST" action="?/adminDeauth" use:enhance>
 			<input type="submit" value="Deauthorize" />
 		</form>
 	</details>

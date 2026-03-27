@@ -18,6 +18,9 @@ export class Tracking {
 
 	constructor(serialized: string | undefined = undefined) {
 		this.ids = new Set(serialized?.split(','));
+
+		// split residue
+		this.ids.delete('');
 	}
 
 	add(id: string) {

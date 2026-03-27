@@ -66,7 +66,14 @@
 		}
 	}
 
-	a.active {
+	nav ul {
+		gap: 0.25rem;
+	}
+	nav li {
+		border-radius: 0.25rem;
+	}
+
+	nav li:has(> a.active) {
 		background-color: color-mix(
 			in srgb,
 			var(--pico-card-background-color),

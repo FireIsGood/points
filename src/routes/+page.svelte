@@ -103,7 +103,7 @@
 							<td
 								class="table-number"
 								class:positive={user.points > 0}
-								class:negative={user.points < 0}>{user.points}</td
+								class:negative={user.points < 0}>{user.points.toLocaleString()}</td
 							>
 							{#if viewIds}
 								<td class="table-id"

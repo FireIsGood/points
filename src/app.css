@@ -31,6 +31,10 @@ article {
 	}
 }
 
+summary {
+	font-weight: 500;
+}
+
 details summary[role='button'],
 button {
 	padding: 0.125em 0.375em;

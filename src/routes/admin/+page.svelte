@@ -2,6 +2,7 @@
 	import { enhance } from '$app/forms';
 	import toast from 'svelte-french-toast';
 	import type { PageProps } from '../$types';
+	import { updateLocalStorage } from '$lib/util';
 
 	let { data, form }: PageProps = $props();
 
@@ -13,6 +14,8 @@
 		if (form?.success === false) {
 			toast.error(form.message);
 		}
+
+		updateLocalStorage(form);
 	});
 </script>
 

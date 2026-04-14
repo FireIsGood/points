@@ -2,7 +2,7 @@
 	import { enhance } from '$app/forms';
 	import type { PageProps } from './$types';
 	import toast from 'svelte-french-toast';
-	import { clipboardCopy } from '$lib/util';
+	import { clipboardCopy, updateLocalStorage } from '$lib/util';
 	import AddTrack from './add-track-modal.svelte';
 	import HistoryModal from './history-modal.svelte';
 	import OptionsModal from './options-modal.svelte';
@@ -22,13 +22,13 @@
 	// Toasts
 	$effect(() => {
 		if (form?.success) {
-			console.log('SUCCESS!', form.message);
 			toast.success(form.message);
 		}
 		if (form?.success === false) {
-			console.log('ERROR!', form.message);
 			toast.error(form.message);
 		}
+
+		updateLocalStorage(form);
 	});
 
 	let viewIds = $state(false);

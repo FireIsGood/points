@@ -150,7 +150,11 @@ export const api = {
 		tracking.add(form_id);
 		cookies.set(COOKIE_TRACKING, tracking.toString(), { path: '/', expires: wayLaterTimestamp() });
 
-		return { success: true, message: 'Tracking added.' };
+		return {
+			success: true,
+			message: 'Tracking added.',
+			localStorage: { set: { [COOKIE_TRACKING]: tracking.toString() } }
+		};
 	},
 	untrack: async ({ cookies, request }) => {
 		const tracking = new Tracking(cookies.get(COOKIE_TRACKING));
@@ -171,7 +175,11 @@ export const api = {
 		tracking.delete(form_id);
 		cookies.set(COOKIE_TRACKING, tracking.toString(), { path: '/', expires: wayLaterTimestamp() });
 
-		return { success: true, message: 'Tracking removed.' };
+		return {
+			success: true,
+			message: 'Tracking removed.',
+			localStorage: { set: { [COOKIE_TRACKING]: tracking.toString() } }
+		};
 	},
 	createUser: async ({ cookies, request }) => {
 		const isAdmin = cookieAdmin(cookies);
@@ -198,7 +206,11 @@ export const api = {
 
 		cookies.set(COOKIE_TRACKING, tracking.toString(), { path: '/', expires: wayLaterTimestamp() });
 
-		return { success: true, message: `User ${res.username} (${res.uuid}) created.` };
+		return {
+			success: true,
+			message: `User ${res.username} (${res.uuid}) created.`,
+			localStorage: { set: { [COOKIE_TRACKING]: tracking.toString() } }
+		};
 	},
 	updateUser: async ({ cookies, request }) => {
 		const isAdmin = cookieAdmin(cookies);
@@ -315,11 +327,19 @@ export const api = {
 			expires: wayLaterTimestamp()
 		});
 
-		return { success: true, message: 'Added authorization..' };
+		return {
+			success: true,
+			message: 'Added authorization..',
+			localStorage: { set: { [COOKIE_ADMIN]: form_key } }
+		};
 	},
 	adminDeauth: async ({ cookies }) => {
 		cookies.delete(COOKIE_ADMIN, { path: '/' });
 
-		return { success: true, message: 'Removed authorization.' };
+		return {
+			success: true,
+			message: 'Removed authorization.',
+			localStorage: { delete: [COOKIE_ADMIN] }
+		};
 	}
 } satisfies Actions;

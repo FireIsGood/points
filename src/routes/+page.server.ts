@@ -6,7 +6,7 @@ import {
 	getUsers,
 	getUsersAdmin
 } from '$lib/server/database';
-import { COOKIE_TRACKING } from '$lib';
+import { COOKIE_ADMIN, COOKIE_TRACKING } from '$lib';
 import { wayLaterTimestamp } from '$lib/util';
 import { api, cookieAdmin, Tracking } from '$lib/server/api';
 
@@ -17,7 +17,17 @@ export const load: PageServerLoad = async ({ cookies }) => {
 	const tracking = new Tracking(cookies.get(COOKIE_TRACKING));
 
 	// Refresh tracking cookie
-	cookies.set(COOKIE_TRACKING, tracking.toString(), { path: '/', expires: wayLaterTimestamp() });
+	if (tracking.ids.size > 0) {
+		cookies.set(COOKIE_TRACKING, tracking.toString(), { path: '/', expires: wayLaterTimestamp() });
+	}
+	// Refresh admin cookie
+	const adminKey = cookies.get(COOKIE_ADMIN);
+	if (isAdmin && adminKey !== undefined) {
+		cookies.set(COOKIE_ADMIN, adminKey, {
+			path: '/',
+			expires: wayLaterTimestamp()
+		});
+	}
 
 	// Query DB
 	if (isAdmin) {

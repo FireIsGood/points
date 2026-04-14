@@ -3,6 +3,9 @@
 	import favicon from '$lib/assets/flan.gif';
 	import { Toaster } from 'svelte-french-toast';
 	import { page } from '$app/state';
+	import { onMount } from 'svelte';
+	import { syncLocalStorage } from '$lib/util';
+	import { browser } from '$app/environment';
 
 	let { children } = $props();
 
@@ -10,6 +13,12 @@
 		{ href: '/', linkText: 'Tracker' },
 		{ href: '/about', linkText: 'About' }
 	];
+
+	onMount(() => {
+		if (browser) {
+			syncLocalStorage();
+		}
+	});
 </script>
 
 <svelte:head>

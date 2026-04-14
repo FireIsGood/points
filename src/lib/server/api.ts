@@ -1,5 +1,5 @@
-import { COOKIE_ADMIN, COOKIE_TRACKING, cookieAdmin } from '$lib';
-import { fail } from '@sveltejs/kit';
+import { COOKIE_ADMIN, COOKIE_TRACKING } from '$lib';
+import { fail, type Cookies } from '@sveltejs/kit';
 import type { Actions } from '../../routes/$types';
 import {
 	createTransaction,
@@ -12,6 +12,10 @@ import {
 } from './database';
 import type { transactions, users } from '$lib/server/db/schema';
 import { wayLaterTimestamp } from '$lib/util';
+
+export function cookieAdmin(cookies: Cookies): boolean {
+	return cookies.get(COOKIE_ADMIN) === process.env.ADMIN_KEY;
+}
 
 export class Tracking {
 	ids: Set<string>;

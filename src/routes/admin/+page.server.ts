@@ -1,4 +1,5 @@
-import { COOKIE_ADMIN, cookieAdmin } from '$lib';
+import { COOKIE_ADMIN } from '$lib';
+import { cookieAdmin } from '$lib/server/api';
 import { api } from '$lib/server/api';
 import type { Actions, PageServerLoad } from '../$types';
 

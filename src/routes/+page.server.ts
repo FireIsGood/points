@@ -6,9 +6,9 @@ import {
 	getUsers,
 	getUsersAdmin
 } from '$lib/server/database';
-import { COOKIE_TRACKING, cookieAdmin } from '$lib';
+import { COOKIE_TRACKING } from '$lib';
 import { wayLaterTimestamp } from '$lib/util';
-import { api, Tracking } from '$lib/server/api';
+import { api, cookieAdmin, Tracking } from '$lib/server/api';
 
 dotenv.config();
 

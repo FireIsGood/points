@@ -6,8 +6,7 @@ import type { Actions, PageServerLoad } from '../$types';
 export const load: PageServerLoad = async ({ cookies }) => {
 	const isAdmin = cookieAdmin(cookies);
 	return {
-		role: isAdmin ? 'admin' : 'user',
-		admin_key: cookies.get(COOKIE_ADMIN)
+		role: isAdmin ? 'admin' : 'user'
 	};
 };
 

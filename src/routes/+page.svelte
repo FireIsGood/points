@@ -154,7 +154,7 @@
 				<thead>
 					<tr>
 						<th class="header-points">Delta</th>
-						<th>Note</th>
+						<th class="header-note">Note</th>
 						<th>User</th>
 						{#if viewLogIds}
 							<th>UUID</th>
@@ -228,6 +228,9 @@
 	.header-actions {
 		text-align: center;
 		width: 18ch;
+	}
+	.header-note {
+		width: 40ch;
 	}
 	.header-date {
 		width: 25ch;

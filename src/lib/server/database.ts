@@ -63,6 +63,7 @@ export async function getUsersAdmin() {
 function _getTransactions() {
 	return db
 		.select({
+			username: users.username,
 			id: users.uuid,
 			delta: transactions.delta,
 			note: transactions.note,

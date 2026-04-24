@@ -6,6 +6,7 @@
 	import AddTrack from './add-track-modal.svelte';
 	import HistoryModal from './history-modal.svelte';
 	import OptionsModal from './options-modal.svelte';
+	import dayjs from 'dayjs';
 
 	let { data, form }: PageProps = $props();
 
@@ -33,6 +34,8 @@
 
 	let viewIds = $state(false);
 	let viewAsUser = $state(false);
+	let viewLogIds = $state(false);
+	let viewLogTimes = $state(false);
 	let isAdmin = $derived(data.role === 'admin');
 
 	// Filter users for admin view
@@ -143,6 +146,68 @@
 		</div>
 	{/if}
 </article>
+{#if isAdmin}
+	<article>
+		<h2>Transaction Log</h2>
+		<div class="noresize table-holder">
+			<table class="striped">
+				<thead>
+					<tr>
+						<th class="header-points">Delta</th>
+						<th>Note</th>
+						<th>User</th>
+						{#if viewLogIds}
+							<th>UUID</th>
+						{/if}
+						<th class="header-date">Creation Time</th>
+						{#if viewLogTimes}
+							<th class="header-date">Modified Time</th>
+						{/if}
+					</tr>
+				</thead>
+				<tbody>
+					{#each data.transactions as transaction}
+						<tr>
+							<td
+								class="table-number"
+								class:positive={transaction.delta > 0}
+								class:negative={transaction.delta < 0}
+								>{transaction.delta > 0 ? '+' : ''}{transaction.delta.toLocaleString()}</td
+							>
+							<td>{transaction.note}</td>
+							<td>{transaction.username}</td>
+							{#if viewLogIds}
+								<td>{transaction.id}</td>
+							{/if}
+							<td
+								><time datetime={transaction.createdAt.toISOString()}
+									>{dayjs(transaction.createdAt).format('MMM DD, YYYY @ HH:mm:ss')}</time
+								></td
+							>
+							{#if viewLogTimes}
+								<td
+									><time datetime={transaction.updatedAt.toISOString()}
+										>{dayjs(transaction.createdAt).format('MMM DD, YYYY @ HH:mm:ss')}</time
+									></td
+								>
+							{/if}
+						</tr>
+					{/each}
+				</tbody>
+			</table>
+		</div>
+		<div class="table-footer-actions">
+			<div class="option-group">
+				<label>
+					<input type="checkbox" bind:checked={viewLogIds} />Show UUIDs
+				</label>
+				<label>
+					<input type="checkbox" bind:checked={viewLogTimes} />Show Modification Times
+				</label>
+			</div>
+		</div>
+	</article>
+{/if}
 
 <style>
 	.table-holder {
@@ -158,11 +223,14 @@
 	}
 	.header-points {
 		text-align: right;
-		width: 12ch;
+		width: 19ch;
 	}
 	.header-actions {
 		text-align: center;
 		width: 18ch;
+	}
+	.header-date {
+		width: 25ch;
 	}
 
 	.table-id {

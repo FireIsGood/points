@@ -6,6 +6,7 @@
 	import AddTrack from './add-track-modal.svelte';
 	import HistoryModal from './history-modal.svelte';
 	import OptionsModal from './options-modal.svelte';
+	import Pagination from './pagination.svelte';
 	import dayjs from 'dayjs';
 
 	let { data, form }: PageProps = $props();
@@ -34,8 +35,6 @@
 
 	let viewIds = $state(false);
 	let viewAsUser = $state(false);
-	let viewLogIds = $state(false);
-	let viewLogTimes = $state(false);
 	let isAdmin = $derived(data.role === 'admin');
 
 	// Filter users for admin view
@@ -50,6 +49,11 @@
 	// Shared Modals
 	let optionsModal: OptionsModal;
 	let historyModal: HistoryModal;
+
+	// Transaction Logs
+	let viewLogIds = $state(false);
+	let viewLogTimes = $state(false);
+	let transactionsFiltered = $state<typeof data.transactions>([]);
 </script>
 
 <OptionsModal
@@ -166,7 +170,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					{#each data.transactions as transaction}
+					{#each transactionsFiltered as transaction}
 						<tr>
 							<td
 								class="table-number"
@@ -197,6 +201,11 @@
 			</table>
 		</div>
 		<div class="table-footer-actions">
+			<Pagination
+				bind:allRows={data.transactions}
+				bind:filteredRows={transactionsFiltered}
+				rowsPerPage={25}
+			/>
 			<div class="option-group">
 				<label>
 					<input type="checkbox" bind:checked={viewLogIds} />Show UUIDs

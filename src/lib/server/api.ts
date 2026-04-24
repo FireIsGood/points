@@ -1,4 +1,5 @@
 import { COOKIE_ADMIN, COOKIE_TRACKING } from '$lib';
+import bcrypt from 'bcrypt';
 import { fail, type Cookies } from '@sveltejs/kit';
 import type { Actions } from '../../routes/$types';
 import {
@@ -14,7 +15,10 @@ import type { transactions, users } from '$lib/server/db/schema';
 import { wayLaterTimestamp } from '$lib/util';
 
 export function cookieAdmin(cookies: Cookies): boolean {
-	return cookies.get(COOKIE_ADMIN) === process.env.ADMIN_KEY;
+	const user_key = cookies.get(COOKIE_ADMIN);
+	if (user_key === undefined) return false;
+
+	return bcrypt.compareSync(user_key, process.env.ADMIN_KEY ?? '');
 }
 
 export class Tracking {

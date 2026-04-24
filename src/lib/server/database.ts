@@ -50,7 +50,7 @@ function _getUsers() {
 			updatedAt: users.updatedAt
 		})
 		.from(users)
-		.orderBy(asc(users.username))
+		.orderBy(asc(sql`lower(${users.username})`))
 		.leftJoin(sq, eq(users.id, sq.id));
 }
 export async function getUsers(tracking: string[]) {

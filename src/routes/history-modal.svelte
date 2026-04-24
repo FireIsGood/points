@@ -77,9 +77,9 @@
 		<table class="striped">
 			<thead>
 				<tr>
-					<th class="header-date">Date</th>
 					<th class="header-points">Change</th>
 					<th class="header-note">Note</th>
+					<th class="header-date">Date</th>
 					{#if isAdmin}
 						<th class="header-actions">Actions</th>
 					{/if}
@@ -89,17 +89,17 @@
 				{#each transactionsFiltered as transaction}
 					<tr>
 						<td
+							class="table-number"
+							class:positive={transaction.delta > 0}
+							class:negative={transaction.delta < 0}
+							>{transaction.delta > 0 ? '+' : ''}{transaction.delta.toLocaleString()}</td
+						>
+						<td>{transaction.note}</td>
+						<td
 							><time datetime={transaction.createdAt.toISOString()}
 								>{dayjs(transaction.createdAt).format('MMM DD, YYYY @ HH:mm:ss')}</time
 							></td
 						>
-						<td
-							class="table-number"
-							class:positive={transaction.delta > 0}
-							class:negative={transaction.delta < 0}
-							>{transaction.delta > 0 ? '+' : ''}{transaction.delta}</td
-						>
-						<td>{transaction.note}</td>
 						{#if isAdmin}
 							<td class="table-action">
 								<div class="history-actions">
@@ -126,7 +126,7 @@
 						{/if}
 					</tr>
 				{:else}
-					<tr><td colspan="4">No data.</td></tr>
+					<tr><td colspan="4" class="no-data">No data.</td></tr>
 				{/each}
 			</tbody>
 		</table>
@@ -217,7 +217,7 @@
 	}
 
 	.header-date {
-		width: 28ch;
+		width: 25ch;
 	}
 	.header-points {
 		width: 12ch;
@@ -258,5 +258,9 @@
 	input.danger {
 		--pico-background-color: var(--color-negative);
 		--pico-border-color: var(--color-negative-background);
+	}
+
+	.no-data {
+		text-align: center;
 	}
 </style>

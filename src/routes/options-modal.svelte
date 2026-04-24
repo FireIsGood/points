@@ -72,7 +72,6 @@
 			</form>
 		</div>
 	</fieldset>
-	<div>Not much you can really do here...</div>
 	{#if isAdmin}
 		<section class="admin-actions-container">
 			<p class="admin-actions-title">Admin Actions</p>
@@ -118,6 +117,8 @@
 				</form>
 			</details>
 		</section>
+	{:else}
+		<div>Not much you can really do here...</div>
 	{/if}
 </Modal>
 

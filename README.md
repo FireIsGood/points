@@ -16,8 +16,7 @@ Add the `.env` file:
 cp .env.example .env
 ```
 
-In the new `.env` file, replace the `admin_key` value to be a bcrypt hash of
-an admin key. You will use the unhashed version to authorize on the frontend
+Edit the `admin_key` to your own secret.
 
 Update and run Drizzle migrations:
 

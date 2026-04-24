@@ -223,7 +223,7 @@
 	}
 	.header-points {
 		text-align: right;
-		width: 19ch;
+		width: 12ch;
 	}
 	.header-actions {
 		text-align: center;

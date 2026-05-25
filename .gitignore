@@ -22,5 +22,6 @@ Thumbs.db
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 
-# SQLite
-src/lib/server/db/sqlite.db
+# Database files
+# (declared broadly in case you wish to make backups in the same folder)
+*.db

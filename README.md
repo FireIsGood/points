@@ -2,6 +2,8 @@
 
 Personal point tracker to my very specification.
 
+Data is stored in a local SQLite database set in the `.env` file.
+
 ## Local Development
 
 Install dependencies with your preferred package manager:
@@ -24,6 +26,9 @@ Update and run Drizzle migrations:
 pnpm generate-migrations:db
 pnpm migrate:db
 ```
+
+Your database will now exist at the location specified in the DB file. The
+default is `./points.db`.
 
 Run the development server:
 

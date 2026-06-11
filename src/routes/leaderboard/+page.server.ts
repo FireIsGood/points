@@ -44,6 +44,7 @@ export const load: PageServerLoad = async ({ cookies }) => {
 				rank: nextRank
 			});
 		});
+	const totalRanks = nextRank;
 
 	const anonUsers = allUsers.map<LeaderboardEntry>((user) => {
 		const tracked = tracking.has(user.id);
@@ -62,13 +63,15 @@ export const load: PageServerLoad = async ({ cookies }) => {
 		return {
 			role: 'admin',
 			users: anonUsers,
-			allUsers: allUsers
+			allUsers: allUsers,
+			totalRanks
 		};
 	}
 
 	return {
 		role: 'user',
 		users: anonUsers,
-		allUsers: anonUsers
+		allUsers: anonUsers,
+		totalRanks
 	};
 };

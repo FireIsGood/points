@@ -10,6 +10,9 @@
 
 		return data.allUsers;
 	});
+	const meanPoints = $derived(
+		data.allUsers.reduce((prev, u) => prev + u.points, 0) / data.allUsers.length
+	);
 
 	let viewIds = $state(false);
 	let viewAsUser = $state(false);
@@ -18,6 +21,10 @@
 <article>
 	<h2>Leaderboard</h2>
 	<p>An anonymized (if you do not track the UUID) leaderboard of top point holders.</p>
+	<p>
+		There are <strong>{users.length}</strong> users holding <strong>{data.totalRanks}</strong>
+		positions. The mean point balance is <strong>{meanPoints.toFixed(2)}</strong> points.
+	</p>
 	<div class="noresize table-holder">
 		<table class="striped">
 			<thead>

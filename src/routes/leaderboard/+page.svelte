@@ -10,9 +10,58 @@
 
 		return data.allUsers;
 	});
+	const positivePoints = $derived(
+		data.allUsers.reduce((prev, u) => (u.points > 0 ? prev + Math.abs(u.points) : prev), 0)
+	);
+	const negativePoints = $derived(
+		data.allUsers.reduce((prev, u) => (u.points < 0 ? prev + Math.abs(u.points) : prev), 0)
+	);
+	const totalPoints = $derived(positivePoints + negativePoints);
 	const meanPoints = $derived(
 		data.allUsers.reduce((prev, u) => prev + u.points, 0) / data.allUsers.length
 	);
+	const medianPoints = $derived(
+		data.allUsers.length % 2 === 0
+			? // even
+				(data.allUsers[Math.floor(data.allUsers.length / 2)].points +
+					data.allUsers[Math.floor(data.allUsers.length / 2) - 1].points) /
+					2
+			: // odd
+				data.allUsers[Math.floor(data.allUsers.length / 2)].points
+	);
+	const modePoints = $derived.by(() => {
+		const counts: Record<number, number> = {};
+		data.allUsers.forEach((u) => {
+			if (!(u.points in counts)) {
+				counts[u.points] = 0;
+			}
+			counts[u.points] += 1;
+		});
+
+		// Find highest counts
+		let highestCount = 0;
+		const highestElements: number[] = [];
+
+		Object.entries(counts).forEach(([k, v]) => {
+			if (v > highestCount) {
+				highestElements.length = 0;
+				highestCount = v;
+			}
+			if (v === highestCount) {
+				highestElements.push(parseFloat(k));
+			}
+		});
+
+		return highestElements;
+	});
+	const standardDeviationPoints = $derived.by(() => {
+		const pointCounts = data.allUsers.map((u) => u.points);
+		if (pointCounts.length === 0) return 0;
+		const mean = meanPoints;
+		return Math.sqrt(
+			pointCounts.map((x) => Math.pow(x - mean, 2)).reduce((a, b) => a + b) / pointCounts.length
+		);
+	});
 
 	let viewIds = $state(false);
 	let viewAsUser = $state(false);
@@ -22,8 +71,17 @@
 	<h2>Leaderboard</h2>
 	<p>An anonymized (if you do not track the UUID) leaderboard of top point holders.</p>
 	<p>
-		There are <strong>{users.length}</strong> users holding <strong>{data.totalRanks}</strong>
-		positions. The mean point balance is <strong>{meanPoints.toFixed(2)}</strong> points.
+		There are <strong>{data.totalRanks}</strong> ranks among <strong>{users.length}</strong>
+		users.<br />
+		The total balance of all users is
+		<strong class={totalPoints ? 'positive' : 'negative'}>{totalPoints}</strong>
+		points between
+		<strong class="positive">{positivePoints}</strong>
+		positive points and
+		<strong class="negative">{negativePoints}</strong> negative points.<br />
+		(Mean = <strong>{meanPoints.toFixed(2)}</strong>, Median = <strong>{medianPoints}</strong>, Mode
+		= <strong>{modePoints}</strong>, Standard Deviation =
+		<strong>{standardDeviationPoints.toFixed(2)}</strong>)<br />
 	</p>
 	<div class="noresize table-holder">
 		<table class="striped">
@@ -122,13 +180,12 @@
 	.table-number {
 		text-align: right;
 		font-family: var(--pico-font-family-monospace);
-
-		&.positive {
-			color: var(--color-positive);
-		}
-		&.negative {
-			color: var(--color-negative);
-		}
+	}
+	.positive {
+		color: var(--color-positive);
+	}
+	.negative {
+		color: var(--color-negative);
 	}
 
 	.anonymous {

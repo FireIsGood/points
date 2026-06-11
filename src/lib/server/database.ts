@@ -81,6 +81,13 @@ export async function getTransactionsAdmin() {
 	return await _getTransactions();
 }
 
+export async function getTotalPoints() {
+	return db
+		.select({ sum: sum(transactions.delta) })
+		.from(transactions)
+		.then((v) => parseInt(v[0].sum ?? ''));
+}
+
 // Update
 export async function updateUser(uuid: string, data: Partial<typeof users.$inferInsert>) {
 	return (await db.update(users).set(data).where(eq(users.uuid, uuid)).limit(1).returning()).at(0);

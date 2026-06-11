@@ -11,6 +11,7 @@
 
 	const navLinks = [
 		{ href: '/', linkText: 'Tracker' },
+		{ href: '/leaderboard', linkText: 'Leaderboard' },
 		{ href: '/about', linkText: 'About' }
 	];
 

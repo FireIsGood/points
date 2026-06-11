@@ -20,7 +20,8 @@ function anonymizeUsername(name: string): string {
 }
 
 type LeaderboardEntry = Awaited<ReturnType<typeof getUsersAdmin>>[0] & {
-	stake: number | any;
+	stake: number;
+	rank: number;
 };
 
 export const load: PageServerLoad = async ({ cookies }) => {
@@ -29,9 +30,20 @@ export const load: PageServerLoad = async ({ cookies }) => {
 
 	const [totalPoints, allUsersRaw] = await Promise.all([getTotalPoints(), getUsersAdmin()]);
 
+	let nextRank = 0;
+	let previousPoints: number | null = null;
 	const allUsers: LeaderboardEntry[] = allUsersRaw
 		.toSorted((a, b) => b.points - a.points)
-		.map((u) => Object.assign(u, { stake: (u.points * 100) / totalPoints }));
+		.map((u) => {
+			if (previousPoints !== u.points) {
+				nextRank += 1;
+				previousPoints = u.points;
+			}
+			return Object.assign(u, {
+				stake: (u.points * 100) / totalPoints,
+				rank: nextRank
+			});
+		});
 
 	const anonUsers = allUsers.map<LeaderboardEntry>((user) => {
 		const tracked = tracking.has(user.id);
@@ -41,7 +53,8 @@ export const load: PageServerLoad = async ({ cookies }) => {
 			points: user.points,
 			createdAt: user.createdAt,
 			updatedAt: user.updatedAt,
-			stake: (user.points * 100) / totalPoints
+			stake: (user.points * 100) / totalPoints,
+			rank: user.rank
 		};
 	});
 

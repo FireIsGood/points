@@ -31,9 +31,11 @@
 				</tr>
 			</thead>
 			<tbody>
-				{#each users as user, i}
+				{#each users as user}
 					<tr class:anonymous={user.id === ''}>
-						<td class="table-rank">{i + 1} <span class="stake">{user.stake.toFixed(2)}%</span></td>
+						<td class="table-rank"
+							>{user.rank} <span class="stake">{user.stake.toFixed(2)}%</span></td
+						>
 						<td class="table-username">{user.username}</td>
 						<td
 							class="table-number"

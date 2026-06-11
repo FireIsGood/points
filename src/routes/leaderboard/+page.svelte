@@ -168,6 +168,8 @@
 		align-items: flex-end;
 		justify-content: center;
 		gap: 0.5ch;
+		padding-inline: 0.25rem;
+
 		&::before {
 			content: '';
 		}

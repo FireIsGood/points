@@ -33,7 +33,7 @@
 			<tbody>
 				{#each users as user, i}
 					<tr class:anonymous={user.id === ''}>
-						<td class="table-rank">{i + 1} <span class="stake">{user.stake.toFixed(1)}%</span></td>
+						<td class="table-rank">{i + 1} <span class="stake">{user.stake.toFixed(2)}%</span></td>
 						<td class="table-username">{user.username}</td>
 						<td
 							class="table-number"
@@ -91,7 +91,7 @@
 
 	.table-rank {
 		display: grid;
-		grid-template-columns: 1fr auto minmax(4ch, 2fr);
+		grid-template-columns: 1fr auto minmax(5ch, 2fr);
 		align-items: flex-end;
 		justify-content: center;
 		gap: 0.5ch;

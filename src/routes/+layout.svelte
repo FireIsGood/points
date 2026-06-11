@@ -54,7 +54,9 @@
 <style>
 	header {
 		display: flex;
+		flex-wrap: wrap;
 		justify-content: space-between;
+		gap: 0.5rem 1rem;
 		padding: 1rem 1.25rem;
 		border-bottom-right-radius: 8px;
 		border-bottom-left-radius: 8px;
@@ -66,6 +68,13 @@
 			margin: 0;
 		}
 	}
+
+	@media (width < 600px) {
+		header {
+			justify-content: center;
+		}
+	}
+
 	footer {
 		display: flex;
 		justify-content: space-between;

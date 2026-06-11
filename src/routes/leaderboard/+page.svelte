@@ -70,19 +70,25 @@
 <article>
 	<h2>Leaderboard</h2>
 	<p>An anonymized (if you do not track the UUID) leaderboard of top point holders.</p>
-	<p>
-		There are <strong>{data.totalRanks}</strong> ranks among <strong>{users.length}</strong>
-		users.<br />
-		The total balance of all users is
-		<strong class={totalPoints ? 'positive' : 'negative'}>{totalPoints}</strong>
-		points between
-		<strong class="positive">{positivePoints}</strong>
-		positive points and
-		<strong class="negative">{negativePoints}</strong> negative points.<br />
-		(Mean = <strong>{meanPoints.toFixed(2)}</strong>, Median = <strong>{medianPoints}</strong>, Mode
-		= <strong>{modePoints}</strong>, Standard Deviation =
-		<strong>{standardDeviationPoints.toFixed(2)}</strong>)<br />
-	</p>
+	<ul>
+		<li>
+			There are <strong>{data.totalRanks}</strong> ranks among <strong>{users.length}</strong>
+			users.
+		</li>
+		<li>
+			The total balance of all users is
+			<strong class={totalPoints ? 'positive' : 'negative'}>{totalPoints}</strong>
+			points between
+			<strong class="positive">{positivePoints}</strong>
+			positive points and
+			<strong class="negative">{negativePoints}</strong> negative points.
+		</li>
+		<li>
+			(Mean = <strong>{meanPoints.toFixed(2)}</strong>, Median = <strong>{medianPoints}</strong>,
+			Mode = <strong>{modePoints}</strong>, Standard Deviation =
+			<strong>{standardDeviationPoints.toFixed(2)}</strong>)
+		</li>
+	</ul>
 	<div class="noresize table-holder">
 		<table class="striped">
 			<thead>

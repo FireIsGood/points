@@ -72,6 +72,10 @@ code {
 	}
 }
 
+ul {
+	padding-inline-start: 28px;
+}
+
 .container-fluid {
 	max-width: 1080px;
 }

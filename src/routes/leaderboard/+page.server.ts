@@ -27,9 +27,9 @@ export const load: PageServerLoad = async ({ cookies }) => {
 	const isAdmin = cookieAdmin(cookies);
 	const tracking = new Tracking(cookies.get(COOKIE_TRACKING));
 
-	const totalPoints = await getTotalPoints();
+	const [totalPoints, allUsersRaw] = await Promise.all([getTotalPoints(), getUsersAdmin()]);
 
-	const allUsers: LeaderboardEntry[] = (await getUsersAdmin())
+	const allUsers: LeaderboardEntry[] = allUsersRaw
 		.toSorted((a, b) => b.points - a.points)
 		.map((u) => Object.assign(u, { stake: (u.points * 100) / totalPoints }));
 

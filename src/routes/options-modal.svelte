@@ -1,7 +1,10 @@
 <script lang="ts">
+	import { PUBLIC_SITE_URL } from '$env/static/public';
 	import { enhance } from '$app/forms';
 	import type { ActionData, SubmitFunction } from './$types';
 	import Modal from '$lib/modal.svelte';
+	import { clipboardCopy } from '$lib/util';
+	import toast from 'svelte-french-toast';
 
 	let {
 		users = $bindable(),
@@ -12,6 +15,7 @@
 		users: {
 			id: string;
 			username: string;
+			points: number;
 		}[];
 		transactions: {
 			id: string | null;
@@ -48,6 +52,22 @@
 	let untrackButton: HTMLInputElement;
 	let addTransactionOpen = $state(false);
 	let updateUserOpen = $state(false);
+
+	async function shareId(id: string) {
+		const user = users.find((u) => u.id === id);
+		if (user === undefined) {
+			toast.error('Unable to find user');
+			return;
+		}
+		const message = `Your UUID is \`${user.id}\` at ${PUBLIC_SITE_URL} under the username **${user.username}** and \
+your current balance is \`${user.points}\` points.\n\n\
+Anyone with your UUID can see your current points and all point transactions you have done. \
+I can change your UUID at your request which will break tracking for everyone watching it. \
+Usernames are cosmetic to your internal ID and UUID, so I can change them at your request without affecting your point \
+balance or history.`;
+		await clipboardCopy(message);
+		toast.success('Copied share message to clipboard');
+	}
 </script>
 
 <Modal bind:this={optionsModal}>
@@ -116,6 +136,7 @@
 					<input type="submit" />
 				</form>
 			</details>
+			<button class="secondary outline" onclick={() => shareId(optionsId)}>Share UUID</button>
 		</section>
 	{:else}
 		<div>Not much you can really do here...</div>

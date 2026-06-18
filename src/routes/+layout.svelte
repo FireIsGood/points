@@ -34,7 +34,7 @@
 <header class="container-fluid">
 	<h1>FireIsPoints</h1>
 	<nav>
-		<ul>
+		<ul class="nav-links">
 			{#each navLinks as { href, linkText }}
 				<li><a {href} class:active={page.url.pathname === href}>{linkText}</a></li>
 			{/each}
@@ -98,5 +98,10 @@
 			var(--pico-card-background-color),
 			var(--pico-primary-background) 8%
 		);
+	}
+
+	.nav-links {
+		flex-wrap: wrap;
+		justify-content: center;
 	}
 </style>

@@ -1,6 +1,6 @@
 import { COOKIE_TRACKING, cyrb53 } from '$lib';
 import { cookieAdmin, Tracking } from '$lib/server/api';
-import { getTotalPoints, getUsers, getUsersAdmin } from '$lib/server/database';
+import { getTotalPoints, getUsersAdmin } from '$lib/server/database';
 import syllables from '$lib/syllables';
 import type { PageServerLoad } from './$types';
 

@@ -6,14 +6,24 @@
 	import { onMount } from 'svelte';
 	import { syncLocalStorage } from '$lib/util';
 	import { browser } from '$app/environment';
+	import type { LayoutProps } from './$types';
 
-	let { children } = $props();
+	let { children, data }: LayoutProps = $props();
 
-	const navLinks = [
+	let isAdmin = $derived(data.role === 'admin');
+
+	type NavLink = {
+		href: string;
+		linkText: string;
+		hidden?: boolean;
+	};
+
+	const navLinks: NavLink[] = $derived([
 		{ href: '/', linkText: 'Tracker' },
 		{ href: '/leaderboard', linkText: 'Leaderboard' },
+		{ href: '/events', linkText: 'Events', hidden: !isAdmin },
 		{ href: '/about', linkText: 'About' }
-	];
+	]);
 
 	onMount(() => {
 		if (browser) {
@@ -35,8 +45,10 @@
 	<h1>FireIsPoints</h1>
 	<nav>
 		<ul class="nav-links">
-			{#each navLinks as { href, linkText }}
-				<li><a {href} class:active={page.url.pathname === href}>{linkText}</a></li>
+			{#each navLinks as { href, linkText, hidden }}
+				{#if hidden !== true}
+					<li><a {href} class:active={page.url.pathname === href}>{linkText}</a></li>
+				{/if}
 			{/each}
 		</ul>
 	</nav>

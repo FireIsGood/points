@@ -2,17 +2,6 @@ import { db } from '$lib/server/db/client';
 import { users, transactions } from '$lib/server/db/schema';
 import { and, asc, desc, eq, inArray, sql, sum } from 'drizzle-orm';
 
-export const db_ = {
-	users: [
-		{ id: '3a23355e-cfd5-4ec1-9f0c-68125d3b40df', username: 'FireIsGood' },
-		{ id: 'cc421bf6-40e5-4128-878c-5d925eb7b611', username: 'FireIsBad' }
-	],
-	transactions: [
-		{ id: '3a23355e-cfd5-4ec1-9f0c-68125d3b40df', delta: 4000, note: 'Initial setup' },
-		{ id: 'cc421bf6-40e5-4128-878c-5d925eb7b611', delta: -4000, note: 'Initial setup' }
-	]
-};
-
 export function userExists(id: string): boolean {
 	return db.select().from(users).where(eq(users.uuid, id)).get() !== undefined;
 }

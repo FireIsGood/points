@@ -7,12 +7,11 @@
 	import HistoryModal from './history-modal.svelte';
 	import OptionsModal from './options-modal.svelte';
 	import Pagination from './pagination.svelte';
-	import dayjs from 'dayjs';
 	import Date from '$lib/date.svelte';
 
 	let { data, form }: PageProps = $props();
 
-	async function copyText(text: string, label?: string = 'UUID') {
+	async function copyText(text: string, label: string = 'UUID') {
 		const res = await clipboardCopy(text);
 
 		if (res) {

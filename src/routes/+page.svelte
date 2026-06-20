@@ -12,11 +12,11 @@
 
 	let { data, form }: PageProps = $props();
 
-	async function copyId(id: string) {
-		const res = await clipboardCopy(id);
+	async function copyText(text: string, label?: string = 'UUID') {
+		const res = await clipboardCopy(text);
 
 		if (res) {
-			toast.success('UUID copied to clipboard');
+			toast.success(`${label} copied to clipboard`);
 		} else {
 			toast.error('Could not copy to clipboard');
 		}
@@ -55,6 +55,19 @@
 	let viewLogIds = $state(false);
 	let viewLogTimes = $state(false);
 	let transactionsFiltered = $state<typeof data.transactions>([]);
+
+	async function copyTransaction(transaction: (typeof data.transactions)[number]) {
+		const user = users.find((u) => u.id === transaction.id);
+		if (user === undefined) {
+			toast.error('Could not find user associated with transaction');
+			return;
+		}
+		console.log(transaction, user);
+		transaction.delta;
+		const sign = transaction.delta > 0 ? '+' : '';
+		const message = `- ${user.username}: ${sign}${transaction.delta} (${user.points - transaction.delta} -> ${user.points})`;
+		await copyText(message, 'Transaction');
+	}
 </script>
 
 <OptionsModal
@@ -115,7 +128,7 @@
 							>
 							{#if viewIds}
 								<td class="table-id"
-									><button class="contents" onclick={() => copyId(user.id)}
+									><button class="contents" onclick={() => copyText(user.id)}
 										><code>{user.id}</code></button
 									></td
 								>
@@ -164,10 +177,11 @@
 						{#if viewLogIds}
 							<th>UUID</th>
 						{/if}
-						<th class="header-date">Creation Time</th>
 						{#if viewLogTimes}
+							<th class="header-date">Creation Time</th>
 							<th class="header-date">Modified Time</th>
 						{/if}
+						<th class="header-actions single">Actions</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -184,14 +198,20 @@
 							{#if viewLogIds}
 								<td>{transaction.id}</td>
 							{/if}
-							<td>
-								<Date timestamp={transaction.createdAt} />
-							</td>
 							{#if viewLogTimes}
+								<td>
+									<Date timestamp={transaction.createdAt} />
+								</td>
 								<td>
 									<Date timestamp={transaction.updatedAt} />
 								</td>
 							{/if}
+							<td>
+								<button
+									class="table-action-button primary"
+									onclick={() => copyTransaction(transaction)}>Copy</button
+								>
+							</td>
 						</tr>
 					{/each}
 				</tbody>
@@ -234,6 +254,9 @@
 	.header-actions {
 		text-align: center;
 		width: 18ch;
+		&.single {
+			width: 10ch;
+		}
 	}
 	.header-note {
 		width: 40ch;

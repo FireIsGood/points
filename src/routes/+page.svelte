@@ -8,6 +8,7 @@
 	import OptionsModal from './options-modal.svelte';
 	import Pagination from './pagination.svelte';
 	import dayjs from 'dayjs';
+	import Date from '$lib/date.svelte';
 
 	let { data, form }: PageProps = $props();
 
@@ -183,17 +184,13 @@
 							{#if viewLogIds}
 								<td>{transaction.id}</td>
 							{/if}
-							<td
-								><time datetime={transaction.createdAt.toISOString()}
-									>{dayjs(transaction.createdAt).format('MMM DD, YYYY @ HH:mm:ss')}</time
-								></td
-							>
+							<td>
+								<Date timestamp={transaction.createdAt} />
+							</td>
 							{#if viewLogTimes}
-								<td
-									><time datetime={transaction.updatedAt.toISOString()}
-										>{dayjs(transaction.createdAt).format('MMM DD, YYYY @ HH:mm:ss')}</time
-									></td
-								>
+								<td>
+									<Date timestamp={transaction.updatedAt} />
+								</td>
 							{/if}
 						</tr>
 					{/each}

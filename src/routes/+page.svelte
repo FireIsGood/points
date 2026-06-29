@@ -64,7 +64,7 @@
 		console.log(transaction, user);
 		transaction.delta;
 		const sign = transaction.delta > 0 ? '+' : '';
-		const message = `- ${user.username}: ${sign}${transaction.delta} (${user.points - transaction.delta} -> ${user.points})`;
+		const message = `- ${user.username}: ${sign}${transaction.delta} (${user.points - transaction.delta} -> ${user.points})\n`;
 		await copyText(message, 'Transaction');
 	}
 </script>
